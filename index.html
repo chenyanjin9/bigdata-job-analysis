@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大数据招聘岗位数据分析 · 求职作品集项目</title>
+<style>
+:root{--ink:#1f2933;--muted:#52606d;--line:#e4e7eb;--brand:#2b6cb0;--brand-soft:#ebf2fa;
+  --accent:#2f855a;--bg:#ffffff;--panel:#f7f9fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.75;font-size:15px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 26px 64px}
+header.hero{background:linear-gradient(135deg,#2b6cb0,#1a4e86);color:#fff;padding:46px 26px 38px;margin-bottom:8px}
+header.hero .inner{max-width:1080px;margin:0 auto}
+header.hero h1{font-size:30px;margin:0 0 8px}
+header.hero p{margin:4px 0;opacity:.92}
+.tags{margin-top:14px}
+.tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);
+  font-size:12px;padding:4px 11px;border-radius:20px;margin:4px 6px 0 0}
+nav.toc{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:5;
+  padding:10px 26px;display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+nav.toc a{color:var(--brand);text-decoration:none;font-weight:600}
+nav.toc a:hover{text-decoration:underline}
+h2{font-size:20px;margin:42px 0 14px;padding-left:12px;border-left:4px solid var(--brand)}
+h3{font-size:16px;color:var(--brand);margin:20px 0 8px}
+p{color:#33404e}.muted{color:var(--muted)}
+.banner{background:#fffaf0;border:1px solid #f6e2b3;border-radius:8px;padding:12px 16px;
+  margin:14px 0;font-size:13px;color:#8a6d3b}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.chart{width:100%;border-radius:6px;border:1px solid var(--line);background:#fff}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:18px 0}
+.stage{flex:1 1 150px;min-width:140px;background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:13px;position:relative;text-align:center}
+.stage .n{font-size:12px;color:var(--brand);font-weight:700}.stage .t{font-weight:600;font-size:14px;margin:4px 0 2px}
+.stage .d{font-size:12px;color:var(--muted)}
+.arrow{flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:18px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--brand-soft);color:var(--brand);font-weight:600}
+tr:nth-child(even) td{background:#fafbfc}
+.q{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;
+  padding:12px 16px;margin:10px 0}.q b{color:var(--accent)}
+ul{margin:8px 0 8px 4px;padding-left:22px;color:#33404e}li{margin:6px 0}
+.filelist{font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;padding:12px 16px;line-height:1.9}
+.filelist code{background:#eef2f6;padding:1px 6px;border-radius:4px;color:#1a4e86}
+footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.arrow{transform:rotate(90deg);flex-basis:100%;height:22px}}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="inner">
+  <h1>大数据招聘岗位数据分析</h1>
+  <p>求职作品集项目 · 大数据技术专业 · 数据采集 → 清洗 → 探索性分析 → 可视化 全链路实战</p>
+  <p class="muted" style="color:#cfe0f2">技术栈：Python · requests/bs4 · pandas · matplotlib · ECharts · CSV</p>
+  <div class="tags">
+    <span class="tag">Python 爬虫(合规)</span><span class="tag">pandas 清洗</span>
+    <span class="tag">EDA 探索性分析</span><span class="tag">matplotlib</span>
+    <span class="tag">ECharts 看板</span><span class="tag">数据合规</span>
+  </div>
+</div></header>
+
+<nav class="toc">
+  <a href="#bg">背景目标</a><a href="#arch">流程架构</a><a href="#data">数据源</a>
+  <a href="#eda">清洗与EDA</a><a href="#viz">可视化</a><a href="#concl">业务结论</a>
+  <a href="#limit">局限与口径</a><a href="#files">文件清单</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="banner">⚠️ 本作品集当前展示的是<b>演示数据集（30 条，明确标注"非真实采集"）</b>，用于验证完整分析流程与可视化效果。
+  将真实合规采集并清洗后的 <code>jobs_raw.csv</code> 放入本目录重跑脚本，即可一键复现真实结论，所有图表/报告会自动更新。</div>
+
+  <!-- 背景 -->
+  <h2 id="bg">一、项目背景与业务目标</h2>
+  <p>大数据产业持续扩张，但求职者（尤其应届与初级人才）缺乏对市场供需、技能要求与薪酬的量化认知。本项目以<b>政府公共招聘渠道</b>的公开职位为对象，
+  构建"采集—清洗—分析—可视化"全链路，将分散文本转化为可度量洞察，既服务求职决策，也是大数据技术栈的综合实践。</p>
+  <div class="card">
+    <b>业务目标</b>
+    <ul>
+      <li>量化岗位的区域/行业分布与需求热度；</li>
+      <li>解析技能要求与薪资结构，识别高价值技术栈；</li>
+      <li>挖掘经验、学历、城市对岗位与薪酬的影响；</li>
+      <li>以可视化看板输出结论，形成可复用分析方法论。</li>
+    </ul>
+  </div>
+
+  <!-- 架构 -->
+  <h2 id="arch">二、项目整体流程架构</h2>
+  <div class="flow">
+    <div class="stage"><div class="n">01 采集</div><div class="t">数据采集</div><div class="d">Python 爬虫，按城市×关键词分页抓公开职位页，守 robots/限速</div></div>
+    <div class="arrow">→</div>
+    <div class="stage"><div class="n">02 存储</div><div class="t">清洗与存储</div><div class="d">字段解析、去重、归一化；落盘 CSV（UTF-8-BOM）</div></div>
+    <div class="arrow">→</div>
+    <div class="stage"><div class="n">03 分析</div><div class="t">EDA 探索</div><div class="d">pandas 描述统计、分组统计、技能词频与共现</div></div>
+    <div class="arrow">→</div>
+    <div class="stage"><div class="n">04 展示</div><div class="t">可视化</div><div class="d">matplotlib 静态图 + ECharts 交互看板</div></div>
+    <div class="arrow">→</div>
+    <div class="stage"><div class="n">05 应用</div><div class="t">决策支持</div><div class="d">面向应届生的求职策略结论</div></div>
+  </div>
+
+  <!-- 数据源 -->
+  <h2 id="data">三、数据源与采集规范</h2>
+  <div class="card">
+    <b>推荐公开数据源（合规优先）</b>
+    <ul>
+      <li>★★★ 中国公共招聘网 <code>job.mohrss.gov.cn</code>（人社部官方，风险最低）</li>
+      <li>★★★ 四川/重庆公共就业网（对齐"川渝"主线，区域样本更聚焦）</li>
+      <li>★★☆ 高校就业指导中心官网、国家/省公共数据开放平台</li>
+      <li>★☆☆ Kaggle / 天池公开职位数据集（快速验证流程）</li>
+    </ul>
+    <b>爬虫合规规范</b>
+    <ul>
+      <li>遵守 <code>robots.txt</code>；请求间隔 ≥2 秒（政府站建议 3–5 秒）+ 随机抖动；</li>
+      <li>遇 <code>429</code> 读取 <code>Retry-After</code> 退避；仅采公开字段，不碰个人隐私；</li>
+      <li>不突破反爬、不转售数据；成果标注来源与"趋势性分析"口径。</li>
+    </ul>
+    <p class="muted">⚠️ 不采集 BOSS直聘/智联/前程无忧/拉勾等商业平台（robots 禁止、有判例风险、简历上不利）。详见 <code>采集说明.md</code>、<code>collector.py</code>。</p>
+  </div>
+
+  <!-- EDA -->
+  <h2 id="eda">四、数据清洗与探索性分析（EDA）</h2>
+  <div class="card">
+    <b>清洗步骤（pandas）</b>
+    <ul>
+      <li>类型转换：薪资→数值、日期→datetime、派生 <code>salary_avg</code>；</li>
+      <li>缺失值：关键字段缺失→丢行，分类字段缺失→填"未知"；</li>
+      <li>异常值：薪资≤0、min&gt;max、超上限(&gt;200K)→剔除；</li>
+      <li>去重：按 <code>job_id</code>（退化按职位+公司+城市）。</li>
+    </ul>
+    <p class="muted">演示数据本身干净，清洗命中 0 异常；脚本按真实脏数据标准编写，换真实数据可直接复用。详见 <code>eda_clean.py</code>、<code>jobs_clean.csv</code>。</p>
+  </div>
+  <table>
+    <tr><th>分析维度</th><th>本数据集关键发现</th><th>对应业务问题</th></tr>
+    <tr><td>薪资描述统计</td><td>月薪均值 13.9K、中位数 14K、区间 8–23K</td><td>② 薪酬结构</td></tr>
+    <tr><td>城市分布</td><td>成都 18 岗 / 重庆 12 岗；重庆均薪 15.6K &gt; 成都 12.8K</td><td>① 需求分布</td></tr>
+    <tr><td>学历 / 经验</td><td>本科 20 岗为主；1-3 年 16 岗最多，应届仅 2 岗</td><td>④ 门槛差异</td></tr>
+    <tr><td>技能词频</td><td>TOP：Hive 17、SQL 12、Spark 11、Python 10、Flink 9</td><td>③ 技能画像</td></tr>
+    <tr><td>行业 / 岗位</td><td>软件 11、政务信息化 6；数据平台/Flink 实时岗突出</td><td>⑤ 岗位细分</td></tr>
+  </table>
+
+  <!-- 可视化 -->
+  <h2 id="viz">五、可视化分析</h2>
+  <div class="grid">
+    <div class="card"><img class="chart" src="imgs/city.png" alt="城市岗位与薪资"></div>
+    <div class="card"><img class="chart" src="imgs/exp.png" alt="经验门槛与薪资"></div>
+    <div class="card"><img class="chart" src="imgs/skill.png" alt="高频技能"></div>
+    <div class="card"><img class="chart" src="imgs/edu.png" alt="学历与薪资"></div>
+  </div>
+  <table>
+    <tr><th>图</th><th>类型</th><th>X / Y 轴</th><th>业务意义</th></tr>
+    <tr><td>图1 城市</td><td>柱状+折线双轴</td><td>X:城市 / Y左:岗位数, Y右:均薪(K)</td><td>判断去哪发展：成都量更大、重庆薪更高</td></tr>
+    <tr><td>图2 经验</td><td>柱状+折线双轴</td><td>X:经验要求 / Y左:岗位数, Y右:均薪(K)</td><td>看清应届/初级机会占比，定位竞争力档位</td></tr>
+    <tr><td>图3 技能</td><td>横向条形</td><td>X:出现频次 / Y:技能名</td><td>明确最该学的硬技能栈，给学习路线</td></tr>
+    <tr><td>图4 学历</td><td>柱状+折线双轴</td><td>X:学历 / Y左:岗位数, Y右:均薪(K)</td><td>量化"学历焦虑"：学历影响有限，重项目实习</td></tr>
+  </table>
+  <p class="muted">📊 交互式看板（ECharts，含薪资分布、技能共现热力等）：<a href="analysis_report.html">analysis_report.html</a>；
+  完整 matplotlib 报告：<a href="visualization_report.html">visualization_report.html</a>。</p>
+
+  <!-- 结论 -->
+  <h2 id="concl">六、面向应届生的业务结论（落地）</h2>
+  <div class="q"><b>① 地域：川渝是主战场，按目标取舍。</b>成都需求密集(18)、重庆薪资更高(15.6K&gt;12.8K)。应届生优先布局川渝：重机会量看成都，重起薪看重庆，两地通投扩大命中。</div>
+  <div class="q"><b>② 经验门槛：企业普遍要即战力，必须用经历补足。</b>30 岗中"1-3年"占 16 个，"应届/在校"仅 2 个。需用<b>实习+课程项目+竞赛</b>把简历填出实战痕迹，否则初筛易被刷。</div>
+  <div class="q"><b>③ 技能：先打牢三件套，再追实时热点。</b>SQL/Hive/Spark 是刚需三件套，Flink/Kafka 代表实时趋势。路线：先精通 SQL 与 Hive 数仓建模，再熟用 Spark，有余力补 Flink。</div>
+  <div class="q"><b>④ 学历：别焦虑，把项目做扎实更关键。</b>本科 20 个主流、大专/硕士各 5 个，且本科均薪不输硕士。学历是门槛不是天花板——把数仓 ETL 项目做透、能讲清技术细节，比刷学历标签更有效。</div>
+
+  <!-- 局限性 -->
+  <h2 id="limit">七、数据局限性与分析口径说明</h2>
+  <div class="card">
+    <ul>
+      <li><b>样本偏差：</b>仅覆盖部分公开渠道，未包含全部招聘来源，结论不能代表整体就业市场全貌；</li>
+      <li><b>时效限制：</b>数据为特定时间窗口的快照，市场行情随时间变化，需周期性更新保持有效；</li>
+      <li><b>字段噪声：</b>公开页面存在反爬、字段缺失或格式不一，清洗后仍可能残留少量噪声；</li>
+      <li><b>薪资精度：</b>薪资多为区间值，已归一化为月薪均值(K)，分析结论为<b>趋势性参考</b>而非精确预测；</li>
+      <li><b>定位边界：</b>本项目定位为"市场趋势性洞察与实战能力展示"，<b>不构成就业指导或招聘承诺</b>；</li>
+      <li><b>数据性质：</b>当前展示为演示数据（标注"非真实采集"），仅验证流程；正式分析须使用真实合规采集结果。</li>
+    </ul>
+    <p class="muted">研究/展示时务必注明数据来源、采集口径与以上限制，确保结论可溯源、可复核。</p>
+  </div>
+
+  <!-- 文件清单 -->
+  <h2 id="files">八、项目文件清单与运行方式</h2>
+  <div class="filelist">
+    <code>collector.py</code> 合规采集框架（requests+bs4，含 robots/限速/429 护栏）<br>
+    <code>采集说明.md</code> 数据源推荐、字段清单、爬虫合规规范<br>
+    <code>eda_clean.py</code> 数据清洗 + EDA 脚本（pandas）<br>
+    <code>jobs_sample.csv</code> 演示数据（非真实采集）｜ <code>jobs_clean.csv</code> 清洗后数据<br>
+    <code>viz.py</code> matplotlib 可视化（中文 + 4 图）｜ <code>imgs/*.png</code> 4 张图<br>
+    <code>build_report.py</code> + <code>analysis_report.html</code> ECharts 交互看板<br>
+    <code>visualization_report.html</code> matplotlib 自包含报告<br>
+    <code>index.html</code> 本作品集整合首页<br><br>
+    <b>运行：</b>装依赖 <code>pip install requests beautifulsoup4 pandas matplotlib</code> →
+    配置 <code>collector.py</code> 的 START_URLS 采集真实数据 →
+    <code>python eda_clean.py</code> → <code>python build_report.py</code> → <code>python viz.py</code>，报告自动更新。
+  </div>
+
+  <footer>
+    大数据招聘岗位数据分析 · 求职作品集项目。技术栈：Python / pandas / matplotlib / ECharts。
+    本页为流程整合与展示用途，数据口径与局限性见第七节。
+  </footer>
+</div>
+</body>
+</html>
